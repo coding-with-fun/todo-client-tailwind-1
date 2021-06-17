@@ -1,10 +1,14 @@
 import React from "react";
+import Body from "./Body";
+import { UserProvider } from "./context/UserContext";
 
 const App = () => {
     return (
-        <div className="select-none">
-            <h1 className="text-6xl">Home</h1>
-        </div>
+        <UserProvider>
+            <div className="select-none">
+                <Body />
+            </div>
+        </UserProvider>
     );
 };
 
