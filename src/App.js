@@ -2,7 +2,7 @@ import React from "react";
 
 const App = () => {
     return (
-        <div>
+        <div className="select-none">
             <h1 className="text-6xl">Home</h1>
         </div>
     );
