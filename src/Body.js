@@ -8,7 +8,7 @@ const Body = () => {
     return (
         <Router>
             <Navbar />
-            <div className="py-16 h-screen">
+            <div className="py-16 h-screen overflow-y-auto">
                 <WrappedRouter />
             </div>
             <Footer />
