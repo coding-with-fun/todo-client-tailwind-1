@@ -1,31 +1,40 @@
+import { Backdrop, Button, Fade, Modal, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal";
-import Backdrop from "@material-ui/core/Backdrop";
-import Fade from "@material-ui/core/Fade";
-
+import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
+import { useForm } from "react-hook-form";
 
 const useStyles = makeStyles((theme) => ({
-    modal: {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+    inputField: {
+        margin: theme.spacing(1, 0),
     },
-    paper: {
-        backgroundColor: theme.palette.background.paper,
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
+
+    submitButton: {
+        margin: theme.spacing(1, 0),
     },
 }));
 
 const AddToDoModal = ({ handleToggleAddToDoModal, isAddModalOpen }) => {
     const classes = useStyles();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        mode: "onSubmit",
+        shouldFocusError: true,
+    });
+
+    const onSubmit = (data) => {
+        console.log(data);
+        handleToggleAddToDoModal();
+    };
 
     return (
         <Modal
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
-            className={classes.modal}
+            className="flex items-center justify-center"
             open={isAddModalOpen}
             onClose={handleToggleAddToDoModal}
             closeAfterTransition
@@ -35,11 +44,55 @@ const AddToDoModal = ({ handleToggleAddToDoModal, isAddModalOpen }) => {
             }}
         >
             <Fade in={isAddModalOpen}>
-                <div className={classes.paper}>
-                    <h2 id="transition-modal-title">Transition modal</h2>
-                    <p id="transition-modal-description">
-                        react-transition-group animates me.
-                    </p>
+                <div className="bg-white rounded-md shadow-sm p-6 mx-4 sm:mx-0 w-full sm:w-4/6 md:w-2/6">
+                    <div className="flex justify-end">
+                        <CloseIcon
+                            onClick={handleToggleAddToDoModal}
+                            className="cursor-pointer"
+                        />
+                    </div>
+
+                    <div className="text-3xl text-center p-4">Add new ToDo</div>
+
+                    <form
+                        onSubmit={handleSubmit(onSubmit)}
+                        className="flex flex-col items-center sm:px-5 px-0"
+                    >
+                        <TextField
+                            className={classes.inputField}
+                            variant="outlined"
+                            margin="dense"
+                            placeholder="Enter title"
+                            fullWidth
+                            label="Title"
+                            name="title"
+                            {...register("title", {
+                                required: "Title is required",
+                            })}
+                            error={Boolean(errors.title)}
+                            helperText={errors.title?.message}
+                        />
+
+                        <TextField
+                            className={classes.inputField}
+                            variant="outlined"
+                            margin="dense"
+                            placeholder="Enter description"
+                            fullWidth
+                            label="Description"
+                            name="description"
+                            {...register("description")}
+                        />
+
+                        <Button
+                            variant="outlined"
+                            color="primary"
+                            type="submit"
+                            className={`${classes.submitButton} focus:outline-none`}
+                        >
+                            Add
+                        </Button>
+                    </form>
                 </div>
             </Fade>
         </Modal>
