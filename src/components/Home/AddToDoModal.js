@@ -2,7 +2,9 @@ import { Backdrop, Button, Fade, Modal, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CloseIcon from "@material-ui/icons/Close";
 import React from "react";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
+import { UserContext } from "../../context/UserContext";
 
 const useStyles = makeStyles((theme) => ({
     inputField: {
@@ -15,10 +17,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddToDoModal = ({ handleToggleAddToDoModal, isAddModalOpen }) => {
+    const { handleAddToDo } = useContext(UserContext);
     const classes = useStyles();
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm({
         mode: "onSubmit",
@@ -26,7 +30,8 @@ const AddToDoModal = ({ handleToggleAddToDoModal, isAddModalOpen }) => {
     });
 
     const onSubmit = (data) => {
-        console.log(data);
+        handleAddToDo(data);
+        reset();
         handleToggleAddToDoModal();
     };
 
