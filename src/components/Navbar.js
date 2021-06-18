@@ -8,7 +8,6 @@ const Navbar = () => {
     const currentPath = useLocation();
 
     const handleSignOut = () => {
-        localStorage.removeItem("user-token");
         handleUserAuthentication("");
     };
 

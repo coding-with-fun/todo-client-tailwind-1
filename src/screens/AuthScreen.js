@@ -1,7 +1,8 @@
-import { makeStyles } from "@material-ui/core/styles";
 import { Button, TextField } from "@material-ui/core";
-import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import React, { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { UserContext } from "../context/UserContext";
 
 const useStyles = makeStyles((theme) => ({
     inputField: {
@@ -14,19 +15,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AuthScreen = ({ authFlag }) => {
+    const { handleUserAuthentication } = useContext(UserContext);
     const classes = useStyles();
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm({
         mode: "onSubmit",
         shouldFocusError: true,
     });
 
-    const onSubmit = (data) => console.log(data);
+    useEffect(() => {
+        reset();
+        // eslint-disable-next-line
+    }, [authFlag]);
 
-    console.log(errors);
+    const onSubmit = (data) => {
+        console.log(data);
+
+        // !TODO: Call API for authentication
+        handleUserAuthentication("Abc");
+    };
 
     return (
         <div className="container mx-auto sm:w-1/2 w-3/4">
